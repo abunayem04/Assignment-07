@@ -6,6 +6,15 @@ export function toBengaliNumber(num: number | string | undefined | null): string
   return str.replace(/\d/g, (digit) => bengaliDigits[parseInt(digit, 10)]);
 }
 
+export function parseBengaliNumber(bengaliStr: string): number {
+  if (!bengaliStr) return 0;
+  const englishStr = bengaliStr
+    .replace(/[০-৯]/g, (digit) => bengaliDigits.indexOf(digit).toString())
+    .replace(/,/g, "")
+    .replace(/[^0-9.-]/g, "");
+  return parseFloat(englishStr) || 0;
+}
+
 export function formatUnit(unit: string): string {
   if (!unit) return "প্রতি একক";
   const u = unit.toLowerCase().trim();
@@ -28,3 +37,4 @@ export function getFormattedDate(): string {
   const year = now.getFullYear().toString().replace(/\d/g, (d) => bengaliDigits[parseInt(d, 10)]);
   return `${day}, ${date} ${month}, ${year}`;
 }
+
