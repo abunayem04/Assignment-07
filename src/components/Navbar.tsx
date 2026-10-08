@@ -90,7 +90,7 @@ function NavbarContent() {
                 বাজার দর
               </div>
               <div className="text-[11px] sm:text-xs text-gray-400 font-medium">
-                আজকের বাজারদর
+                {banglaDate}
               </div>
             </div>
           </Link>

@@ -17,3 +17,14 @@ export function formatUnit(unit: string): string {
   if (u === "gram" || u === "gm" || u === "গ্রাম") return "প্রতি ১০০ গ্রাম";
   return `প্রতি ${unit}`;
 }
+
+export function getFormattedDate(): string {
+  const now = new Date();
+  const days = ["রবিবার", "সোমবার", "মঙ্গলবার", "বুধবার", "বৃহস্পতিবার", "শুক্রবার", "শনিবার"];
+  const months = ["জানুয়ারি", "ফেব্রুয়ারি", "মার্চ", "এপ্রিল", "মে", "জুন", "জুলাই", "আগস্ট", "সেপ্টেম্বর", "অক্টোবর", "নভেম্বর", "ডিসেম্বর"];
+  const day = days[now.getDay()];
+  const date = now.getDate().toString().replace(/\d/g, (d) => bengaliDigits[parseInt(d, 10)]);
+  const month = months[now.getMonth()];
+  const year = now.getFullYear().toString().replace(/\d/g, (d) => bengaliDigits[parseInt(d, 10)]);
+  return `${day}, ${date} ${month}, ${year}`;
+}
