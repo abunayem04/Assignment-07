@@ -71,7 +71,7 @@ function SignUpContent() {
 
       toast.success("অ্যাকাউন্ট সফলভাবে তৈরি হয়েছে!");
       const target = (!redirectUrl || redirectUrl === "/signin" || redirectUrl === "/signup") ? "/" : redirectUrl;
-      router.push("/signin");
+      window.location.href = target;
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : "রেজিস্ট্রেশন করতে সমস্যা হয়েছে";
       setErrorMessage(msg);
