@@ -140,7 +140,7 @@ function SignInContent() {
           </div>
         </div>
 
-        <!-- social --> <div className="grid grid-cols-2 gap-3 hidden">
+        <div className="grid grid-cols-2 gap-3">
           <button
             type="button"
             onClick={() => handleSocialLogin("google")}
