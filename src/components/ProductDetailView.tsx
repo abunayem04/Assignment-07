@@ -226,7 +226,7 @@ export default function ProductDetailView({ product, slug }: ProductDetailViewPr
           বাজারভিত্তিক আজকের দাম
         </h2>
 
-        true ? (<div className="p-4 text-center text-gray-400">বাজারের তালিকা শীঘ্রই আসছে...</div>) : (
+        {markets.length === 0 ? (
           <div className="p-8 text-center text-gray-400 text-sm">
             এই পণ্যের বাজারভিত্তিক কোনো তথ্য পাওয়া যায়নি।
           </div>
