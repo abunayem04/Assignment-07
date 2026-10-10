@@ -4,7 +4,7 @@ import React, { useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useSession, signOut } from "@/lib/auth-client";
-import toast from "react-hot-toast";
+import { showToast } from "@/lib/toast";
 import { LogOut, Loader2, Edit3, User, Mail, ShieldCheck } from "lucide-react";
 
 export default function ProfilePage() {
@@ -13,7 +13,7 @@ export default function ProfilePage() {
 
   useEffect(() => {
     if (!isPending && !session?.user) {
-      toast.error("প্রোফাইল দেখতে অনুগ্রহ করে সাইন ইন করুন");
+      showToast("error", "প্রোফাইল দেখতে অনুগ্রহ করে সাইন ইন করুন", { id: "profile-redirect", persistNextPage: true });
       router.replace("/signin?redirect=/profile");
     }
   }, [isPending, session, router]);
@@ -35,10 +35,10 @@ export default function ProfilePage() {
   const handleSignOut = async () => {
     try {
       await signOut();
-      toast.success("সফলভাবে সাইন আউট হয়েছেন");
+      showToast("success", "সফলভাবে সাইন আউট হয়েছেন", { persistNextPage: true });
       window.location.href = "/";
     } catch {
-      toast.error("সাইন আউট ব্যর্থ হয়েছে");
+      showToast("error", "সাইন আউট ব্যর্থ হয়েছে");
     }
   };
 

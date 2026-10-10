@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useSession, updateUser } from "@/lib/auth-client";
-import toast from "react-hot-toast";
+import { showToast } from "@/lib/toast";
 import { Loader2, ArrowLeft, UserCheck } from "lucide-react";
 
 export default function UpdateProfilePage() {
@@ -17,7 +17,7 @@ export default function UpdateProfilePage() {
 
   useEffect(() => {
     if (!isPending && !session?.user) {
-      toast.error("প্রোফাইল দেখতে অনুগ্রহ করে সাইন ইন করুন");
+      showToast("error", "প্রোফাইল দেখতে অনুগ্রহ করে সাইন ইন করুন", { id: "profile-update-redirect", persistNextPage: true });
       router.replace("/signin?redirect=/profile/update");
     } else if (session?.user) {
       setName(session.user.name || "");
@@ -30,7 +30,7 @@ export default function UpdateProfilePage() {
 
     if (!name.trim()) {
       setErrorMessage("অনুগ্রহ করে আপনার নাম লিখুন");
-      toast.error("অনুগ্রহ করে আপনার নাম লিখুন");
+      showToast("error", "অনুগ্রহ করে আপনার নাম লিখুন");
       return;
     }
 
@@ -44,16 +44,16 @@ export default function UpdateProfilePage() {
       if (res.error) {
         const msg = res.error.message || "তথ্য আপডেট করতে ব্যর্থ হয়েছে";
         setErrorMessage(msg);
-        toast.error(msg);
+        showToast("error", msg);
       } else {
-        toast.success("তথ্য সফলভাবে আপডেট করা হয়েছে!");
+        showToast("success", "তথ্য সফলভাবে আপডেট করা হয়েছে!", { persistNextPage: true });
         router.push("/profile");
         router.refresh();
       }
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : "তথ্য আপডেট করতে ব্যর্থ হয়েছে";
       setErrorMessage(msg);
-      toast.error(msg);
+      showToast("error", msg);
     } finally {
       setLoading(false);
     }

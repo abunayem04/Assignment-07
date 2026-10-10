@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { useSession } from "@/lib/auth-client";
 import { Product } from "@/types";
 import { toBengaliNumber, formatUnit } from "@/lib/bangla";
-import toast from "react-hot-toast";
+import { showToast } from "@/lib/toast";
 import { Lock } from "lucide-react";
 
 interface ProductDetailViewProps {
@@ -22,7 +22,10 @@ export default function ProductDetailView({ product, slug }: ProductDetailViewPr
   useEffect(() => {
     if (!isPending && !session?.user && !hasRedirected) {
       setHasRedirected(true);
-      toast.error("পণ্যটির বিস্তারিত দেখতে অনুগ্রহ করে প্রথমে সাইন ইন করুন");
+      showToast("error", "পণ্যটির বিস্তারিত দেখতে অনুগ্রহ করে প্রথমে সাইন ইন করুন", {
+        id: "product-detail-redirect",
+        persistNextPage: true,
+      });
       router.replace(`/signin?redirect=/product/${encodeURIComponent(slug)}`);
     }
   }, [isPending, session, slug, router, hasRedirected]);

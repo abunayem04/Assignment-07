@@ -6,7 +6,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { getFormattedDate } from "@/lib/bangla";
 import { useSession, signOut } from "@/lib/auth-client";
 import { Category } from "@/types";
-import toast from "react-hot-toast";
+import { showToast } from "@/lib/toast";
 import {
   User,
   LogOut,
@@ -63,10 +63,10 @@ function NavbarContent() {
     try {
       await signOut();
       setProfileDropdownOpen(false);
-      toast.success("সফলভাবে সাইন আউট হয়েছেন!");
+      showToast("success", "সফলভাবে সাইন আউট হয়েছেন!", { persistNextPage: true });
       window.location.href = "/";
     } catch {
-      toast.error("সাইন আউট করতে সমস্যা হয়েছে");
+      showToast("error", "সাইন আউট করতে সমস্যা হয়েছে");
     }
   };
 
@@ -180,7 +180,7 @@ function NavbarContent() {
         </div>
       </div>
 
-      <div className="border-t border-gray-100 bg-white">
+      <div className="hidden lg:block border-t border-gray-100 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <nav className="flex items-center justify-start sm:justify-center gap-2 sm:gap-3 py-2.5 overflow-x-auto no-scrollbar">
             {loadingCategories ? (
@@ -218,17 +218,24 @@ function NavbarContent() {
       {mobileMenuOpen && (
         <div className="lg:hidden border-t border-gray-100 bg-white p-4 space-y-2 shadow-lg">
           <div className="grid grid-cols-2 gap-2">
-            {categories.map((cat) => (
-              <Link
-                key={cat.slug}
-                href={`/category/${cat.slug}`}
-                onClick={() => setMobileMenuOpen(false)}
-                className="flex items-center gap-2 p-2.5 rounded-xl bg-gray-50 text-xs font-bold text-gray-800"
-              >
-                <span>{cat.icon}</span>
-                <span>{cat.nameBn}</span>
-              </Link>
-            ))}
+            {categories.map((cat) => {
+              const isActive = pathname === `/category/${cat.slug}`;
+              return (
+                <Link
+                  key={cat.slug}
+                  href={`/category/${cat.slug}`}
+                  onClick={() => setMobileMenuOpen(false)}
+                  className={`flex items-center gap-2 p-2.5 rounded-xl text-xs font-bold transition-all ${
+                    isActive
+                      ? "bg-[#0f7a3f] text-white shadow-xs"
+                      : "bg-gray-50 text-gray-800 hover:bg-gray-100"
+                  }`}
+                >
+                  <span>{cat.icon}</span>
+                  <span>{cat.nameBn}</span>
+                </Link>
+              );
+            })}
           </div>
         </div>
       )}

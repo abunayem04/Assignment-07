@@ -4,7 +4,7 @@ import React, { useState, Suspense } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { signIn } from "@/lib/auth-client";
-import toast from "react-hot-toast";
+import { showToast } from "@/lib/toast";
 import { Loader2 } from "lucide-react";
 
 function SignInContent() {
@@ -23,7 +23,7 @@ function SignInContent() {
 
     if (!email || !password) {
       setErrorMessage("অনুগ্রহ করে ইমেইল এবং পাসওয়ার্ড প্রদান করুন");
-      toast.error("অনুগ্রহ করে ইমেইল এবং পাসওয়ার্ড প্রদান করুন");
+      showToast("error", "অনুগ্রহ করে ইমেইল এবং পাসওয়ার্ড প্রদান করুন");
       return;
     }
 
@@ -38,16 +38,16 @@ function SignInContent() {
       if (res.error) {
         const msg = res.error.message || "ইমেইল বা পাসওয়ার্ড ভুল হয়েছে";
         setErrorMessage(msg);
-        toast.error(msg);
+        showToast("error", msg);
       } else {
-        toast.success("সফলভাবে সাইন ইন সম্পন্ন হয়েছে!");
+        showToast("success", "সফলভাবে সাইন ইন সম্পন্ন হয়েছে!", { persistNextPage: true });
         const target = (!redirectUrl || redirectUrl === "/signin" || redirectUrl === "/signup") ? "/" : redirectUrl;
         window.location.href = target;
       }
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : "সাইন ইন করতে সমস্যা হয়েছে";
       setErrorMessage(msg);
-      toast.error(msg);
+      showToast("error", msg);
     } finally {
       setLoading(false);
     }
@@ -61,7 +61,7 @@ function SignInContent() {
         callbackURL: redirectUrl,
       });
     } catch {
-      toast.error(`${provider} দিয়ে লগইন করতে সমস্যা হয়েছে`);
+      showToast("error", `${provider} দিয়ে লগইন করতে সমস্যা হয়েছে`);
       setLoading(false);
     }
   };
