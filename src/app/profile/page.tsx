@@ -77,7 +77,8 @@ export default function ProfilePage() {
         </div>
 
         <div className="flex items-center gap-2">
-          <div className="hidden"><Link href="/profile/update"
+          <Link
+            href="/profile/update"
             className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-[#0f7a3f] hover:bg-[#0c6634] text-white text-xs sm:text-sm font-bold shadow-xs transition-all cursor-pointer"
           >
             <Edit3 className="w-4 h-4" />
@@ -99,7 +100,8 @@ export default function ProfilePage() {
           <h3 className="text-base font-bold text-gray-900">
             অ্যাকাউন্ট বিবরণ
           </h3>
-          <div className="hidden"><Link href="/profile/update"
+          <Link
+            href="/profile/update"
             className="text-xs font-bold text-[#0f7a3f] hover:underline flex items-center gap-1"
           >
             <span>সম্পাদনা করুন</span>
@@ -140,12 +142,13 @@ export default function ProfilePage() {
         </div>
 
         <div className="pt-2">
-          <div className="hidden"><Link href="/profile/update"
+          <Link
+            href="/profile/update"
             className="w-full inline-flex items-center justify-center gap-2 py-3 px-4 rounded-xl border border-[#0f7a3f] text-[#0f7a3f] hover:bg-[#0f7a3f] hover:text-white font-bold text-xs sm:text-sm transition-all"
           >
             <Edit3 className="w-4 h-4" />
             <span>Update Information (তথ্য পরিবর্তন করুন)</span>
-          </Link></div>
+          </Link>
         </div>
       </div>
     </div>
