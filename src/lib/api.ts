@@ -1,30 +1,43 @@
 import { Category, Product } from "@/types";
 
-const BASE_URL_1 = "https://api.api-store.workers.dev/api/bazardor";
-const BASE_URL_2 = "https://api.abcz.workers.dev/api/bazardor";
+const MAIN_API = "https://openapi.programming-hero.com/api/bazardor";
+const BACKUP_API_1 = "https://api.api-store.workers.dev/api/bazardor";
+const BACKUP_API_2 = "https://api.abcz.workers.dev/api/bazardor";
 
 async function fetchFromWorker(path: string): Promise<unknown> {
   const urlPath = path.startsWith("/") ? path : `/${path}`;
+
   try {
-    const res = await fetch(`${BASE_URL_1}${urlPath}`, {
+    const res = await fetch(`${MAIN_API}${urlPath}`, {
       next: { revalidate: 60 },
     });
     if (res.ok) {
       return await res.json();
     }
   } catch (err) {
-    console.warn(`Primary API failed for ${urlPath}, trying backup:`, err);
+    console.warn(`Main API failed for ${urlPath}, trying backup 1:`, err);
   }
 
   try {
-    const res = await fetch(`${BASE_URL_2}${urlPath}`, {
+    const res = await fetch(`${BACKUP_API_1}${urlPath}`, {
       next: { revalidate: 60 },
     });
     if (res.ok) {
       return await res.json();
     }
   } catch (err) {
-    console.error(`Backup API failed for ${urlPath}:`, err);
+    console.warn(`Backup API 1 failed for ${urlPath}, trying backup 2:`, err);
+  }
+
+  try {
+    const res = await fetch(`${BACKUP_API_2}${urlPath}`, {
+      next: { revalidate: 60 },
+    });
+    if (res.ok) {
+      return await res.json();
+    }
+  } catch (err) {
+    console.error(`Backup API 2 failed for ${urlPath}:`, err);
   }
 
   return null;

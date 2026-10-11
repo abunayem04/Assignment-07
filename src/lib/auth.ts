@@ -8,7 +8,7 @@ const db = client.db(process.env.MONGODB_DB_NAME || "bazardor");
 export const auth = betterAuth({
   database: mongodbAdapter(db),
   secret: process.env.BETTER_AUTH_SECRET || "bazardor_super_secret_session_key_2026_assignment7",
-  baseURL: process.env.BETTER_AUTH_URL || "http://localhost:3000",
+  baseURL: (process.env.BETTER_AUTH_URL || "http://localhost:3000").trim().replace(/\/+$/, ""),
   trustedOrigins: [
     "http://localhost:3000",
     "https://assignment-07-nine-rho.vercel.app",
@@ -18,12 +18,12 @@ export const auth = betterAuth({
   },
   socialProviders: {
     google: {
-      clientId: process.env.GOOGLE_CLIENT_ID || "mock-google-client-id",
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET || "mock-google-client-secret",
+      clientId: (process.env.GOOGLE_CLIENT_ID || "").trim(),
+      clientSecret: (process.env.GOOGLE_CLIENT_SECRET || "").trim(),
     },
     github: {
-      clientId: process.env.GITHUB_CLIENT_ID || "mock-github-client-id",
-      clientSecret: process.env.GITHUB_CLIENT_SECRET || "mock-github-client-secret",
+      clientId: (process.env.GITHUB_CLIENT_ID || "").trim(),
+      clientSecret: (process.env.GITHUB_CLIENT_SECRET || "").trim(),
     },
   },
 });
